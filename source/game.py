@@ -86,6 +86,10 @@ class Game:
             img_rect.y = y
             self.gameDisplay.blit(img, img_rect)
             
+    def close_game(self):
+        pygame.quit()
+        sys.exit()
+            
     # show game over display & front display
     def show_gameover_screen(self):
         self.gameDisplay.blit(self.background, (0,0))
@@ -98,11 +102,15 @@ class Game:
         waiting = True
         while waiting:
             self.clock.tick(self.FPS)
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                if event.type == pygame.KEYUP:
-                    waiting = False
+            try:
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        pygame.quit()
+                    if event.type == pygame.KEYUP:
+                        waiting = False
+                        
+            except pygame.error:
+                self.close_game()
                     
     # Main game loop
     def game_loop(self):
